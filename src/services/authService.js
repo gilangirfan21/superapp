@@ -8,13 +8,6 @@ export function signIn(email, password) {
   return supabase.auth.signInWithPassword({ email, password })
 }
 
-export function signInWithGithub() {
-  return supabase.auth.signInWithOAuth({
-    provider: 'github',
-    options: { redirectTo: window.location.origin + import.meta.env.BASE_URL },
-  })
-}
-
 export function sendPasswordReset(email) {
   return supabase.auth.resetPasswordForEmail(email, {
     redirectTo: window.location.origin + import.meta.env.BASE_URL + '#/reset-password',

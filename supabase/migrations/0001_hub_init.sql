@@ -1,11 +1,19 @@
--- Superapp hub -- tabel inti. Jalanin SETELAH 0001.
+-- Superapp hub -- tabel inti.
+-- Jalanin di Supabase SQL Editor (project yang sama dengan todolist),
+-- atau lewat CLI: supabase db push
+--
+-- Sengaja NGGAK nyentuh tabel yang udah ada. `profiles` di project ini punya
+-- babytracker (profil ibu: hpht, baby_name), `measurements` juga punya dia,
+-- `todos` & `categories` punya todolist yang lagi live. Semua dibiarin apa
+-- adanya -- hub pakai nama sendiri.
 --
 -- Semua tabel wajib RLS: nggak ada server di antara browser dan Postgres,
 -- jadi policy di sini satu-satunya batas otorisasi yang ada.
 
--- ---------------------------------------------------------------- profiles
--- Identitas bersama. Dibaca hub, dan nanti app lain juga.
-create table if not exists public.profiles (
+-- ----------------------------------------------------------- profile_admin
+-- Identitas akun buat hub -- nama tampilan, avatar, bio.
+-- Beda urusan dengan `profiles` punya babytracker.
+create table if not exists public.profile_admin (
   user_id      uuid primary key references auth.users(id) on delete cascade,
   display_name text,
   avatar_url   text,
@@ -14,17 +22,17 @@ create table if not exists public.profiles (
   updated_at   timestamptz not null default now()
 );
 
-alter table public.profiles enable row level security;
+alter table public.profile_admin enable row level security;
 
-drop policy if exists profiles_select_own on public.profiles;
-drop policy if exists profiles_insert_own on public.profiles;
-drop policy if exists profiles_update_own on public.profiles;
+drop policy if exists profile_admin_select_own on public.profile_admin;
+drop policy if exists profile_admin_insert_own on public.profile_admin;
+drop policy if exists profile_admin_update_own on public.profile_admin;
 
-create policy profiles_select_own on public.profiles
+create policy profile_admin_select_own on public.profile_admin
   for select using (auth.uid() = user_id);
-create policy profiles_insert_own on public.profiles
+create policy profile_admin_insert_own on public.profile_admin
   for insert with check (auth.uid() = user_id);
-create policy profiles_update_own on public.profiles
+create policy profile_admin_update_own on public.profile_admin
   for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
 -- ------------------------------------------------------------------- apps

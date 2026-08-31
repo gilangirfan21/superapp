@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import GithubIcon from '../components/icons/GithubIcon.vue'
 import AuthShell from '../components/layout/AuthShell.vue'
 import BaseButton from '../components/ui/BaseButton.vue'
 import BaseInput from '../components/ui/BaseInput.vue'
@@ -26,15 +25,6 @@ async function submit() {
     busy.value = false
   }
 }
-
-async function github() {
-  busy.value = true
-  try {
-    await auth.signInWithGithub()
-  } catch {
-    busy.value = false
-  }
-}
 </script>
 
 <template>
@@ -55,15 +45,6 @@ async function github() {
         {{ busy ? 'Sebentar...' : 'Masuk' }}
       </BaseButton>
     </form>
-
-    <div class="my-5 flex items-center gap-3 text-xs text-zinc-400">
-      <span class="h-px flex-1 bg-zinc-200 dark:bg-zinc-800"></span>atau
-      <span class="h-px flex-1 bg-zinc-200 dark:bg-zinc-800"></span>
-    </div>
-
-    <BaseButton variant="secondary" block :disabled="busy" @click="github">
-      <GithubIcon :size="16" /> Lanjut pakai GitHub
-    </BaseButton>
 
     <div class="mt-6 flex flex-col items-center gap-2 text-sm">
       <RouterLink :to="{ name: 'forgot-password' }" class="text-zinc-500 hover:text-brand-500">

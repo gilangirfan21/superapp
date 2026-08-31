@@ -14,11 +14,11 @@ npm run dev
 
 ## Setup pertama kali
 
-1. **Migration** — buka Supabase SQL Editor, jalanin berurutan:
-   - `supabase/migrations/0001_namespace_babytracker.sql`
-   - `supabase/migrations/0002_hub_init.sql`
+1. **Migration** — buka Supabase SQL Editor, jalanin:
+   - `supabase/migrations/0001_hub_init.sql`
+   - `supabase/migrations/0002_rename_profiles_baby.sql`
 2. **Daftar akun** lewat halaman `/#/register`.
-3. **Seed katalog** — jalanin `supabase/seed.sql` sambil login (kolom `owner_id` ngambil `auth.uid()`).
+3. **Seed katalog** — buka `supabase/seed.sql`, ganti `owner_email` jadi email akun lo, lalu jalanin di SQL Editor.
 
 ## Deploy
 

@@ -44,9 +44,6 @@ export const useAuthStore = defineStore('auth', () => {
     return data
   }
 
-  function signInWithGithub() {
-    return run(() => authService.signInWithGithub())
-  }
 
   function sendPasswordReset(email) {
     return run(() => authService.sendPasswordReset(email))
@@ -70,7 +67,6 @@ export const useAuthStore = defineStore('auth', () => {
     init,
     signUp,
     signIn,
-    signInWithGithub,
     sendPasswordReset,
     updatePassword,
     signOut,

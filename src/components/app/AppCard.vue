@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { ExternalLink, Star } from '@lucide/vue'
-import GithubIcon from '../icons/GithubIcon.vue'
+import { Code, ExternalLink, Star } from '@lucide/vue'
 import { iconFor } from '../../lib/icons'
 
 const props = defineProps({
@@ -91,7 +90,7 @@ const statusClass = {
         class="rounded-lg border border-zinc-300 p-2 text-zinc-500 transition-colors hover:text-zinc-900 dark:border-zinc-700 dark:hover:text-zinc-100"
         :aria-label="'Repo ' + app.name"
       >
-        <GithubIcon :size="16" />
+        <Code :size="16" />
       </a>
     </div>
   </div>

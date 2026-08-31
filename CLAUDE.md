@@ -41,11 +41,11 @@ The dark-mode key in `composables/useDarkMode.js` is `theme`, matching todolist,
 
 Migrations live in `supabase/migrations/` and are applied by hand (Supabase SQL Editor) or via `supabase db push`. They are not run automatically.
 
-- `0001_namespace_babytracker.sql` — renames the babytracker tables that already exist in this project (`profiles` with `hpht`/`baby_name` → `baby_profiles`, `measurements` → `baby_measurements`) so the hub can own the name `profiles`. Guarded and idempotent.
-- `0002_hub_init.sql` — `profiles`, `apps`, `app_favorites`, `app_launches` + RLS.
-- `supabase/seed.sql` — the initial catalog rows. Run it while signed in; `owner_id` defaults to `auth.uid()`.
+- `0001_hub_init.sql` — `profile_admin`, `apps`, `app_favorites`, `app_launches` + RLS.
+- `0002_rename_profiles_baby.sql` — renames babytracker's `profiles` (the mother's pregnancy profile: `hpht`, `baby_name`) to `profiles_baby`. Guarded and idempotent.
+- `supabase/seed.sql` — the initial catalog rows. It resolves the owner by looking up an email in `auth.users`, because `auth.uid()` is NULL in the Supabase SQL Editor (it runs as `postgres`, not as a signed-in user) — the `default auth.uid()` on `apps.owner_id` only works for inserts made from the app.
 
-`todos` and `categories` are deliberately **not** prefixed — todolist is live against those names. The `todo_` / `baby_` prefix convention applies to tables added from now on.
+The hub's identity table is `profile_admin`. It is **not** a rename of `profiles` — that table belongs to babytracker and holds the mother's pregnancy profile, a different concept from account identity. `profiles` is renamed to `profiles_baby` only to make ownership legible now that several apps share one database; it was safe to do because the live babytracker still points at the old project (`bznjrtpo…`), leaving the copy here unused. **When babytracker is migrated over (phase 2), its `js/db.js` must switch `.from('profiles')` to `.from('profiles_baby')`.** `measurements`, `todos` and `categories` keep their names — todolist is live against the latter two.
 
 Every table gets RLS in the same migration that creates it. There is no server between the browser and Postgres, so a table without a policy is an open table.
 
@@ -53,7 +53,7 @@ Every table gets RLS in the same migration that creates it. There is no server b
 
 `apps` rows drive the grid. `src/data/apps.json` is a fallback the store falls back to when the query fails, so the hub still renders when logged out or when the DB is unreachable — `usingFallback` then disables favorites and launch logging. Keep the JSON roughly in sync with the seed.
 
-Card icons are keyed by string through `src/lib/icons.js`, an explicit name → component map (not `import * as`, so the bundle only carries what's used). Adding an app with a new icon means adding one line there. `@lucide/vue` has no brand icons, so the GitHub mark is hand-authored in `src/components/icons/GithubIcon.vue`.
+Card icons are keyed by string through `src/lib/icons.js`, an explicit name → component map (not `import * as`, so the bundle only carries what's used). Adding an app with a new icon means adding one line there.
 
 ## Deploy
 
@@ -66,4 +66,4 @@ Card icons are keyed by string through `src/lib/icons.js`, an explicit name → 
 
 ## Roadmap position
 
-Phases 0 and 1 of the plan are built (scaffold, CI, auth, catalog, search/filter, profile, dark mode, favorites, recents). Not yet done: merging babytracker into this Supabase project, GitHub OAuth provider setup, admin CRUD panel, command palette, PWA, cross-app widgets.
+Phases 0 and 1 of the plan are built (scaffold, CI, auth, catalog, search/filter, profile, dark mode, favorites, recents). Auth is email/password through Supabase only — GitHub OAuth was deliberately dropped, so do not reintroduce a provider button. Not yet done: merging babytracker into this Supabase project, admin CRUD panel, command palette, PWA, cross-app widgets.
