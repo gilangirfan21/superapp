@@ -1,0 +1,30 @@
+[
+  {
+    "id": "fallback-todolist",
+    "slug": "todolist",
+    "name": "Todolist",
+    "description": "Todo harian dengan kategori, drag-reorder, dan export CSV.",
+    "icon": "list-todo",
+    "color": "#ff6b35",
+    "url": "https://gilangirfan21.github.io/todolist/",
+    "repo_url": "https://github.com/gilangirfan21/todolist",
+    "tags": ["vue", "supabase", "produktivitas"],
+    "status": "live",
+    "is_public": true,
+    "sort_order": 1
+  },
+  {
+    "id": "fallback-babytracker",
+    "slug": "babytracker",
+    "name": "Baby Tracker",
+    "description": "Catatan pertumbuhan bayi dengan kurva referensi WHO.",
+    "icon": "baby",
+    "color": "#3b9c8f",
+    "url": "https://gilangirfan21.github.io/welcome-page/",
+    "repo_url": "https://github.com/gilangirfan21/welcome-page",
+    "tags": ["vanilla-js", "supabase", "keluarga"],
+    "status": "live",
+    "is_public": true,
+    "sort_order": 2
+  }
+]

@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-50: #fff4ef;
+  --color-brand-100: #ffe4d8;
+  --color-brand-200: #ffc5ac;
+  --color-brand-300: #ff9d76;
+  --color-brand-400: #ff8253;
+  --color-brand-500: #ff6b35;
+  --color-brand-600: #ed4d14;
+  --color-brand-700: #c43a0e;
+  --color-brand-800: #9b3011;
+  --color-brand-900: #7d2b12;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  @apply bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100;
+}
+
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-brand-500;
+}
