@@ -62,6 +62,20 @@ begin
       true,
       2,
       owner
+    ),
+    (
+      'kenalkan',
+      'Kenalkan',
+      'Catatan orang yang pernah ditemui, biar nggak lupa nama.',
+      'users',
+      '#7c5cff',
+      'https://gilangirfan21.github.io/kenalkan/',
+      'https://github.com/gilangirfan21/kenalkan',
+      array['vue', 'supabase', 'catatan'],
+      'live',
+      true,
+      3,
+      owner
     )
   on conflict (slug) do nothing;
 

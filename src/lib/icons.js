@@ -12,6 +12,7 @@ import {
   Notebook,
   Package,
   Rocket,
+  Users,
   Wallet,
   Zap,
 } from '@lucide/vue'
@@ -28,6 +29,7 @@ const map = {
   notebook: Notebook,
   package: Package,
   rocket: Rocket,
+  users: Users,
   wallet: Wallet,
   zap: Zap,
 }

@@ -26,5 +26,19 @@
     "status": "live",
     "is_public": true,
     "sort_order": 2
+  },
+  {
+    "id": "fallback-kenalkan",
+    "slug": "kenalkan",
+    "name": "Kenalkan",
+    "description": "Catatan orang yang pernah ditemui, biar nggak lupa nama.",
+    "icon": "users",
+    "color": "#7c5cff",
+    "url": "https://gilangirfan21.github.io/kenalkan/",
+    "repo_url": "https://github.com/gilangirfan21/kenalkan",
+    "tags": ["vue", "supabase", "catatan"],
+    "status": "live",
+    "is_public": true,
+    "sort_order": 3
   }
 ]
