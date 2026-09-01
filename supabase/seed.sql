@@ -8,8 +8,9 @@
 do $$
 declare
   owner uuid;
-  -- GANTI dengan email akun yang lo pakai daftar di hub:
-  owner_email text := 'gilangxirfan21@gmail.com';
+  -- GANTI dengan email akun yang lo pakai daftar di hub.
+  -- Sengaja placeholder: repo ini publik, jangan naro email asli di sini.
+  owner_email text := 'ganti@email.lo';
 begin
   select id into owner from auth.users where email = owner_email;
 
@@ -54,8 +55,8 @@ begin
       'Catatan pertumbuhan bayi dengan kurva referensi WHO.',
       'baby',
       '#3b9c8f',
-      'https://gilangirfan21.github.io/welcome-page/',
-      'https://github.com/gilangirfan21/welcome-page',
+      'https://gilangirfan21.github.io/babytracker/',
+      'https://github.com/gilangirfan21/babytracker',
       array['vanilla-js', 'supabase', 'keluarga'],
       'live',
       true,

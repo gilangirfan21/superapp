@@ -14,6 +14,8 @@ There is no lint, format, or test setup yet. Adding ESLint + Prettier + Vitest i
 
 A hub / launcher that lists and opens the other apps in this account (`todolist`, `babytracker`), plus apps built later. It is deliberately **not** a monorepo shell: existing apps stay in their own repos and open in a new tab. New apps should be built inside this repo as routes.
 
+Babytracker's live URL/repo is `babytracker` (renamed from the older `welcome-page`) — keep `src/data/apps.json` and `supabase/seed.sql` pointed at that, not `welcome-page`.
+
 ## Architecture
 
 Vue 3 (Composition API, `<script setup>`) + Vite, Tailwind CSS v4, Supabase (Postgres + Auth + RLS), deployed as a static site to GitHub Pages.
@@ -32,7 +34,7 @@ All of these apps are served from the **same origin**, `https://gilangirfan21.gi
 
 Two things this depends on. Don't break either without a replacement plan:
 
-1. Every app points at the same Supabase project. `.env` here uses the todolist project (`djeomfyh…`), which is the designated host. babytracker still points at `bznjrtpo…` and has to be migrated over (see below).
+1. Every app points at the same Supabase project. `.env` here uses the todolist project (`djeomfyh…`), which is the designated host. babytracker has been migrated over to this same project (its `js/db.js` now queries `profiles_baby`, matching migration `0002`).
 2. Every app stays on `gilangirfan21.github.io`. Moving one to Vercel or a custom domain puts it on a different origin and silently ends the shared session.
 
 The dark-mode key in `composables/useDarkMode.js` is `theme`, matching todolist, for the same reason — the theme choice carries across apps.
@@ -43,9 +45,10 @@ Migrations live in `supabase/migrations/` and are applied by hand (Supabase SQL 
 
 - `0001_hub_init.sql` — `profile_admin`, `apps`, `app_favorites`, `app_launches` + RLS.
 - `0002_rename_profiles_baby.sql` — renames babytracker's `profiles` (the mother's pregnancy profile: `hpht`, `baby_name`) to `profiles_baby`. Guarded and idempotent.
+- `0003_people.sql` — `people` (name, gender, relation, context, note, tags, `met_at`) + a stored `search_text` generated column, owner-only RLS. The app that uses it lives in its own repo; the migration lives here because the database is shared, same as `0002`.
 - `supabase/seed.sql` — the initial catalog rows. It resolves the owner by looking up an email in `auth.users`, because `auth.uid()` is NULL in the Supabase SQL Editor (it runs as `postgres`, not as a signed-in user) — the `default auth.uid()` on `apps.owner_id` only works for inserts made from the app.
 
-The hub's identity table is `profile_admin`. It is **not** a rename of `profiles` — that table belongs to babytracker and holds the mother's pregnancy profile, a different concept from account identity. `profiles` is renamed to `profiles_baby` only to make ownership legible now that several apps share one database; it was safe to do because the live babytracker still points at the old project (`bznjrtpo…`), leaving the copy here unused. **When babytracker is migrated over (phase 2), its `js/db.js` must switch `.from('profiles')` to `.from('profiles_baby')`.** `measurements`, `todos` and `categories` keep their names — todolist is live against the latter two.
+The hub's identity table is `profile_admin`. It is **not** a rename of `profiles` — that table belongs to babytracker and holds the mother's pregnancy profile, a different concept from account identity. `profiles` was renamed to `profiles_baby` to make ownership legible now that several apps share one database; babytracker's `js/db.js` has since been updated to match, querying `profiles_baby` instead of `profiles`. `measurements`, `todos` and `categories` keep their names — todolist is live against the latter two.
 
 Every table gets RLS in the same migration that creates it. There is no server between the browser and Postgres, so a table without a policy is an open table.
 
@@ -66,4 +69,4 @@ Card icons are keyed by string through `src/lib/icons.js`, an explicit name → 
 
 ## Roadmap position
 
-Phases 0 and 1 of the plan are built (scaffold, CI, auth, catalog, search/filter, profile, dark mode, favorites, recents). Auth is email/password through Supabase only — GitHub OAuth was deliberately dropped, so do not reintroduce a provider button. Not yet done: merging babytracker into this Supabase project, admin CRUD panel, command palette, PWA, cross-app widgets.
+Phases 0 and 1 of the plan are built (scaffold, CI, auth, catalog, search/filter, profile, dark mode, favorites, recents). Auth is email/password through Supabase only — GitHub OAuth was deliberately dropped, so do not reintroduce a provider button. babytracker has been merged into this Supabase project (phase 2 item, done). Not yet done: admin CRUD panel, command palette, PWA, cross-app widgets.
