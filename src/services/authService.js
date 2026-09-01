@@ -1,7 +1,13 @@
 import { supabase } from '../lib/supabase'
 
 export function signUp(email, password) {
-  return supabase.auth.signUp({ email, password })
+  return supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: window.location.origin + import.meta.env.BASE_URL,
+    },
+  })
 }
 
 export function signIn(email, password) {
