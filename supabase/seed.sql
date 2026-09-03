@@ -76,6 +76,20 @@ begin
       true,
       3,
       owner
+    ),
+    (
+      'counterapp',
+      'CounterDate',
+      'Hitung mundur/mundur momen penting, per kategori dan warna kustom.',
+      'calendar',
+      '#f97316',
+      'https://gilangirfan21.github.io/counterapp/',
+      'https://github.com/gilangirfan21/counterapp',
+      array['react', 'supabase', 'momen-penting'],
+      'live',
+      true,
+      4,
+      owner
     )
   on conflict (slug) do nothing;
 

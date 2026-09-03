@@ -40,5 +40,19 @@
     "status": "live",
     "is_public": true,
     "sort_order": 3
+  },
+  {
+    "id": "fallback-counterapp",
+    "slug": "counterapp",
+    "name": "CounterDate",
+    "description": "Hitung mundur/mundur momen penting, per kategori dan warna kustom.",
+    "icon": "calendar",
+    "color": "#f97316",
+    "url": "https://gilangirfan21.github.io/counterapp/",
+    "repo_url": "https://github.com/gilangirfan21/counterapp",
+    "tags": ["react", "supabase", "momen-penting"],
+    "status": "live",
+    "is_public": true,
+    "sort_order": 4
   }
 ]
